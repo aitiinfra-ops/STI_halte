@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Form Engineer Visit — Halte Transjakarta</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --tx-blue:#0b66c2;
+            --tx-dark:#082f57;
+            --muted:#6b7280;
+            --card:#ffffff;
+            --glass: rgba(11,102,194,0.06);
+        }
+        *{box-sizing:border-box}
+        body{
+            margin:0;
+            font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+            background: linear-gradient(180deg,#f4f7fb 0%, #eef4fb 100%);
+            color: #102a43;
+            padding:28px;
+        }
+
+        .container{
+            max-width:1100px;
+            margin:10px auto;
+        }
+
+        .brand {
+            display:flex;align-items:center;gap:12px;margin-bottom:18px;
+        }
+        .brand .logo {
+            width:56px;height:56px;border-radius:8px;background:var(--tx-blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;box-shadow:0 6px 18px rgba(11,34,71,0.08)
+        }
+        .brand .title { font-size:18px;font-weight:700; color:var(--tx-dark) }
+        .brand .subtitle{ font-size:13px;color:var(--muted) }
+
+        .card {
+            background:var(--card);
+            border-radius:14px;
+            box-shadow: 0 8px 30px rgba(11,34,71,0.06);
+            overflow:hidden;
+        }
+
+        .card-header{
+            padding:18px 22px;
+            background: linear-gradient(90deg,var(--tx-blue), #1e88e5);
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .card-header .h-left {display:flex;gap:12px;align-items:center}
+        .card-header h2 {margin:0;font-size:18px;font-weight:700}
+        .chip { background: rgba(255,255,255,0.14); padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px }
+
+        .card-body{ padding:22px; }
+
+        .section {
+            border-radius:10px;
+            padding:14px;
+            margin-bottom:16px;
+            background: linear-gradient(180deg, rgba(11,102,194,0.02), rgba(11,102,194,0.01));
+            border:1px solid rgba(11,102,194,0.05);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+        .section-title {
+            display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+        }
+        .section-title h3 {margin:0;font-size:15px;color:var(--tx-dark)}
+        .section-sub { font-size:12px;color:var(--muted) }
+
+        .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:12px; align-items:start; }
+        .col-3{ grid-column: span 3; }
+        .col-4{ grid-column: span 4; }
+        .col-6{ grid-column: span 6; }
+        .col-12{ grid-column: span 12; }
+
+        label { display:block;font-weight:600;margin-bottom:6px;font-size:14px }
+        input[type="text"], input[type="date"], input[type="time"], select {
+            width:100%; padding:10px 12px;border-radius:8px;border:1px solid #e6eef8;background:#fff;font-size:14px;
+        }
+
+        .select-empty { color:var(--muted) }
+
+        .sig-box { border:2px dashed rgba(11,102,194,0.12); border-radius:10px; background: #fbfdff; min-height:120px }
+        .small-muted{ font-size:13px;color:var(--muted) }
+
+        .btn-primary {
+            background: var(--tx-blue);
+            color:#fff;padding:12px 18px;border-radius:10px;border:0;font-weight:700;font-size:15px;cursor:pointer;
+            box-shadow:0 8px 18px rgba(11,102,194,0.12);
+        }
+
+        .note { font-size:13px;color:var(--muted); margin-top:6px }
+
+        @media (max-width:900px){
+            .grid{ grid-template-columns:repeat(6,1fr) }
+            .col-3{ grid-column: span 6 }
+            .col-4{ grid-column: span 6 }
+            .col-6{ grid-column: span 6 }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand">
+            <div class="logo">TJ</div>
+            <div>
+                <div class="title">Transjakarta — Engineer Visit</div>
+                <div class="subtitle">Form pemeriksaan halte — corporate design</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="h-left">
+                    <h2>Form Engineer Visit — Halte</h2>
+                    <div style="width:8px"></div>
+                    <div class="chip">Engineer Visit</div>
+                </div>
+                <div class="small-muted">Design: Corporate Transjakarta</div>
+            </div>
+
+            <div class="card-body">
+                <form id="visitForm" autocomplete="off">
+                    <div class="section">
+                        <div class="section-title">
+                            <h3>1. Informasi Kunjungan</h3>
+                            <div class="section-sub">Isi data kunjungan</div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-3">
+                                <label>Tanggal Kunjungan</label>
+                                <input type="date" name="tanggal_kunjungan" required>
+                            </div>
+
+                            <div class="col-3">
+                                <label>Koridor</label>
+                                <select id="koridor" name="koridor" required>
+                                    <option value="" selected disabled class="select-empty">Pilih Koridor</option>
+                                    <option value="1">Koridor 1</option>
+                                    <option value="2">Koridor 2</option>
+                                    <option value="3">Koridor 3</option>
+                                    <option value="5">Koridor 5</option>
+                                    <option value="6">Koridor 6</option>
+                                    <option value="7">Koridor 7</option>
+                                    <option value="8">Koridor 8</option>
+                                    <option value="9">Koridor 9</option>
+                                    <option value="10">Koridor 10</option>
+                                    <option value="11">Koridor 11</option>
+                                    <option value="12">Koridor 12</option>
+                                    <option value="13">Koridor 13</option>
+                                    <option value="14">Koridor 14</option>
+                                </select>
+                            </div>
+
+                            <div class="col-6">
+                                <label>Halte</label>
+                                <select id="halte" name="halte" disabled>
+                                    <option value="" selected disabled class="select-empty">Pilih Halte</option>
+                                </select>
+                                <div class="note">Halte otomatis muncul sesuai pilihan Koridor</div>
+                            </div>
+
+                            <div class="col-4">
+                                <label>Nama Engineer</label>
+                                <input name="nama_engineer" type="text" required>
+                            </div>
+                            <div class="col-4">
+                                <label>NIK Engineer</label>
+                                <input name="nik_engineer" type="text" required>
+                            </div>
+                            <div class="col-4">
+                                <label>No. Handphone</label>
+                                <input name="no_hp" type="text" required>
+                            </div>
+
+                            <div class="col-3">
+                                <label>Waktu Mulai</label>
+                                <input name="waktu_mulai" type="time">
+                            </div>
+                            <div class="col-3">
+                                <label>Waktu Selesai</label>
+                                <input name="waktu_selesai" type="time">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <h3>2. Kondisi Perangkat PIS — <span id="labelA" class="section-sub">Arah A</span></h3>
+                            <div class="section-sub">Pilih kondisi untuk masing-masing perangkat</div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-4">
+                                <label>TV LED PIS (A)</label>
+                                <select name="pis_tv_led_a" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                            <div class="col-4">
+                                <label>Mini PC PIS (A)</label>
+                                <select name="pis_mini_pc_a" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                            <div class="col-4">
+                                <label>Raspberry PIS (A)</label>
+                                <select name="pis_raspberry_a" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <h3>3. Kondisi Perangkat PIS — <span id="labelB" class="section-sub">Arah B</span></h3>
+                            <div class="section-sub">Arah otomatis sesuai koridor</div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-4">
+                                <label>TV LED PIS (B)</label>
+                                <select name="pis_tv_led_b" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                            <div class="col-4">
+                                <label>Mini PC PIS (B)</label>
+                                <select name="pis_mini_pc_b" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                            <div class="col-4">
+                                <label>Raspberry PIS (B)</label>
+                                <select name="pis_raspberry_b" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <h3>4. Kondisi Perangkat CCTV</h3>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-4"><label>DVR/NVR</label><select name="dvr_nvr" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Loket</label><select name="cctv_loket" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Dalam Loket</label><select name="cctv_dalam_loket" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+
+                            <div class="col-4"><label>CCTV Arah Penumpang</label><select name="cctv_penumpang" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Gate</label><select name="cctv_gate" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Vending Machine</label><select name="cctv_vm" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+
+                            <div class="col-4"><label>CCTV Arah Ramp</label><select name="cctv_ramp" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Jalur 1</label><select name="cctv_jalur1" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-4"><label>CCTV Arah Jalur 2</label><select name="cctv_jalur2" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title"><h3>5. Kondisi Perangkat Gate</h3></div>
+
+                        <div class="grid">
+                            <div class="col-3">
+                                <label>Jumlah Gate</label>
+                                <select id="jumlahGate" class="form-select">
+                                    <option value="0">0</option>
+                                </select>
+                                <div class="note">Pilih jumlah gate — form akan menampilkan kolom sesuai jumlah</div>
+                            </div>
+                            <div id="gateContainer" class="col-12" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px"></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title"><h3>6. Kondisi Perangkat Lainnya</h3></div>
+
+                        <div class="grid">
+                            <div class="col-3"><label>Switch 5 Port</label><select name="switch_5port" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>Switch 8 Port</label><select name="switch_8port" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>Switch 16 Port</label><select name="switch_16port" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>Switch 52 Port</label><select name="switch_52port" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+
+                            <div class="col-3"><label>Wi-Fi</label><select name="wifi" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>UPS</label><select name="ups" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>Stabilizer</label><select name="stabilizer" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                            <div class="col-3"><label>Printer PC Dispatch</label><select name="printer_dispatch" class="cond-select"><option value="">-- Pilih --</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option><option>Tidak Ada</option><option>Tidak Dicek</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title"><h3>7. Informasi Petugas Halte</h3></div>
+                        <div class="grid">
+                            <div class="col-4"><label>Nama Petugas Halte</label><input name="nama_petugas" type="text"></div>
+                            <div class="col-4"><label>NIK Petugas Halte</label><input name="nik_petugas" type="text"></div>
+                            <div class="col-4"><label>Foto Selfie bersama Petugas</label><input id="foto_selfie" type="file" accept="image/*"></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title"><h3>8. Tanda Tangan</h3></div>
+                        <div class="grid">
+                            <div class="col-6">
+                                <label>TTD Engineer (kertas / tanda tangan langsung)</label>
+                                <canvas id="sigEngineer" class="sig-box" width="600" height="140"></canvas>
+                                <div style="text-align:right;margin-top:8px"><button type="button" id="clearEng" class="btn-primary" style="background:#ef4444">Hapus</button></div>
+                            </div>
+                            <div class="col-6">
+                                <label>TTD Petugas Halte</label>
+                                <canvas id="sigPetugas" class="sig-box" width="600" height="140"></canvas>
+                                <div style="text-align:right;margin-top:8px"><button type="button" id="clearPet" class="btn-primary" style="background:#ef4444">Hapus</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:right;margin-top:18px">
+                        <button type="submit" class="btn-primary">Kirim</button>
+                    </div>
+                </form>
+
+                <div id="alertArea" style="margin-top:14px"></div>
+            </div>
+        </div>
+    </div>
+
+https://script.google.com/macros/s/AKfycbxF5mWtMEDUsoPTksFbXuuEf4f8EOtNNuu9IOAViIxJVAi__KmVGioc69h-w9htfHDpXg/exec
+<script>
+/* ====================== CONFIG ====================== */
+/* GANTI dengan URL Web App (Apps Script) kamu */
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxF5mWtMEDUsoPTksFbXuuEf4f8EOtNNuu9IOAViIxJVAi__KmVGioc69h-w9htfHDpXg/exec";
+/* =================================================== */
+
+/* ====== Mapping koridor -> arah (sudah sesuai list kamu) ====== */
+const koridorData = {
+    "1": { arahA: "Blok M", arahB: "Kota" },
+    "2": { arahA: "Pulo Gadung", arahB: "Kwitang" },
+    "3": { arahA: "Kalideres", arahB: "Pasar Baru" },
+    "5": { arahA: "Ancol", arahB: "Kampung Melayu" },
+    "6": { arahA: "Ragunan", arahB: "Galunggung" },
+    "7": { arahA: "Kampung Rambutan", arahB: "Kampung Melayu" },
+    "8": { arahA: "Lebak Bulus", arahB: "Pasar Baru" },
+    "9": { arahA: "Pinang Ranti", arahB: "Pluit" },
+    "10": { arahA: "Tanjung Priok", arahB: "PGC" },
+    "11": { arahA: "Pulo Gebang", arahB: "Kampung Melayu" },
+    "12": { arahA: "Tanjung Priok", arahB: "Kota" },
+    "13": { arahA: "Tendean", arahB: "Ciledug" },
+    "14": { arahA: "Pasar Senen", arahB: "Jakarta International Stadium" }
+};
+
+/* ====== Halte data (lengkap sesuai list yang kamu berikan) ====== */
+const halteData = {
+    "1":["Blok M","ASEAN","Kejaksaan Agung","Masjid Agung","Bundaran Senayan","Istora","Polda Metro Jaya","Bendungan Hilir","Karet","Dukuh Atas","Tosari","Bundaran HI ASTRA","Sabang","Kebon Sirih","Monumen Nasional","Harmoni","Sawah Besar","Mangga Besar","Taman Sari","Glodok","Kali Besar","Monumen Fatahillah","Kota"],
+    "2":["Pulo Gadung","Bermis","Pulo Mas","Perintis Kemerdekaan","Pedongkelan","Cempaka Mas","Sumur Batu","Cempaka Baru","Pasar Cempaka Putih","Rawa Selatan","Galur","Pasar Senen","Senen Raya","RSPAD","Pejambon","Gambir","Istiqlal","Juanda","Pecenongan","Monumen Nasional","Balai Kota","Gambir 2","Kwitang"],
+    "3":["Kalideres","Pesakih","Sumur Bor","Rawa Buaya","Jembatan Baru","Pulo Nangka","Jembatan Gantung","Taman Kota","Damai","Jelambar","Grogol","Roxy","Petojo","Monumen Nasional","Pecenongan","Juanda","Pasar Baru"],
+    "4":["Pulo Gadung","Pasar Pulo Gadung","Pemuda Merdeka","Layur","Pemuda Rawamangun","Velodrome","Sunan Giri","Rawamangun","Simpang Pramuka","Pramuka Sari","Utan Kayu","Pasar Genjing","Fly Over Pramuka","Manggarai","Pasar Rumput","Halimun","Galunggung"],
+    "5":["Ancol","Pademangan","Gunung Sahari","Jembatan Merah","Pasar Baru Timur","Lapangan Banteng","Senen Sentral","Pal Putih","Kramat Sentiong","Salemba","Paseban","Matraman","Tegalan","Kesatrian","Matraman Baru","Bail Mester","Jatinegara","Kampung Melayu"],
+    "6":["Ragunan","Simpang Ragunan","Jati Barat","Jati Padang","Pejaten","Buncit Indah","Warung Jati","Warung Buncit","Duren Tiga","Mampang Prapatan","Underpass Kuningan","Patra Kuningan","Kuningan","Rasuna Said","Karet Kuningan","Kuningan Madya","Setiabudi","Flyover Kuningan","Galunggung"],
+    "7":["Kampung Rambutan","Tanah Merdeka","Fly Over Raya Bogor","Trikora","Pasar Induk","Kramat Jati Raya","Cililitan","Cawang Cililitan","Cawang Central","Cawang","Simpang Cawang","Gelanggang Remaja","Bidara Cina","Kampung Melayu"],
+    "8":["Lebak Bulus","Pondok Pinang","Underpass Lebak Bulus","Pondok Indah","Tanah Kusir","Bungu","Kebayoran Lama","Simprug","Permata Hijau","Arteri","Pos Pengumben","Kelapa Dua Sasak","Kebon Jeruk","Duri Kepa","Kedoya Panjang","Kedoya","Damai","Jelambar","Grogol Reformasi","Tanjung Duren","Tomang Raya","Tarakan","Petojo","Pecenongan","Juanda","Pasar Baru"],
+    "9":["Pinang Ranti","Makasar","Cawang Sentral","Cawang","Ciliwung","Cikoko","Tebet ECO Park","Pancoran Tugu","Pancoran","Tegal Parang","Simpang Kuningan","Denpasar","Widya Chandra","Semanggi","Senayan","Petamburan","Kemanggisan","Kota Bambu","Tanjung Duren","Grogol Reformasi","Kali Grogol","Jembatan Besi","Jembatan Dua","Jembatan Tiga","Penjaringan","Pluit"],
+    "10":["Tanjung Priok","Mambo","Koja","Walikota Jakarta Utara","Plumpang","Sunter Kelapa Gading","Kodamar","Simpang Cempaka","Cempaka Putih","Pulomas Bypass","Kayu Putih Rawasari","Pemuda Pramuka","Utan Kayu Rawamangun","Pisangan","Flyover Jatinegara","Pedati Perumpung","Kebon Nanas","Halim","Simpang Cawang","Cawang Central","Cawang Cililitan","PGC"],
+    "11":["Pulo Gebang","Walikota Jakarta Timur","Penggilingan","Flyover Pondok Kopi","Simpang Buaran","Buaran","Kampung Sumur","Klender","Stasiun Klender","Cipinang","Flyover Cipinang","Pasar Enjo","Flyover Jatinegara","Stasiun Jatinegara","Jatinegara","Kampung Melayu"],
+    "12":["Tanjung Priok","Mambo","Koja","Walikota Jakarta Utara","Plumpang","Sunter Kelapa Gading","Sunter Boulevard Barat","Sunter Karya","Sunter Utara","Danau Agung","Landasan Pacu","Jembatan Merah","Gunung Sahari","ITC Mangga Dua","Pangeran Jayakarta","Kali Besar","Bandengan","Penjaringan","Pluit","Pluit Selatan","Pakin","Gedong Panjang","Museum Fatahillah","Kota"],
+    "13":["Tendean","Rawa Barat","Tirtayasa","CSW","Mayestik","Velbak","Kebayoran Lama","Seskoal","Cipulir","Swadarma","JORR","Petukangan Utara","Puri Beta 1","Puri Beta 2","Ciledug"],
+    "14":["Pasar Senen","Senen Raya","Tanah Tinggi","Kemayoran","Landasan Pacu","Danau Agung","Danau Sunter","Jembatan Item","Jakarta International Stadium"]
+};
+
+/* simbol mapping (text -> symbol) */
+const symbolMap = {
+    "Baik": "✅",
+    "Rusak Ringan": "⚠️",
+    "Rusak Berat": "❌",
+    "Tidak Ada": "⛔",
+    "Tidak Dicek": "⭕"
+};
+
+/* ====== helper: populate select options (1..12) untuk jumlahGate ====== */
+(function initJumlahGateOptions(){
+    const sel = document.getElementById('jumlahGate');
+    for(let i=1;i<=12;i++){
+        const o = document.createElement('option'); o.value = i; o.textContent = i; sel.appendChild(o);
+    }
+})();
+
+/* ====== populate halte when koridor changes ====== */
+document.getElementById('koridor').addEventListener('change', (e)=>{
+    const k = e.target.value;
+    const halteEl = document.getElementById('halte');
+    halteEl.innerHTML = '<option value=\"\" selected disabled>Pilih Halte</option>';
+    halteEl.disabled = true;
+    document.getElementById('labelA').textContent = 'Arah A';
+    document.getElementById('labelB').textContent = 'Arah B';
+
+    if(!k) return;
+    const list = halteData[k] || [];
+    list.forEach(h => {
+        const opt = document.createElement('option'); opt.value = h; opt.textContent = h; halteEl.appendChild(opt);
+    });
+    halteEl.disabled = false;
+    if(koridorData[k]){
+        document.getElementById('labelA').textContent = koridorData[k].arahA;
+        document.getElementById('labelB').textContent = koridorData[k].arahB;
+    }
+});
+
+/* ====== gate dynamic (generate selects) ====== */
+document.getElementById('jumlahGate').addEventListener('change', (e)=>{
+    const n = parseInt(e.target.value||0);
+    const container = document.getElementById('gateContainer');
+    container.innerHTML = '';
+    for(let i=1;i<=n;i++){
+        const wrap = document.createElement('div');
+        wrap.style.display = 'block';
+        wrap.style.marginBottom = '8px';
+        wrap.innerHTML = `<label>Gate ${i}</label>
+        <select name="gate_${i}" class="cond-select" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-top:6px">
+            <option value="">-- Pilih --</option>
+            <option>Baik</option>
+            <option>Rusak Ringan</option>
+            <option>Rusak Berat</option>
+            <option>Tidak Ada</option>
+            <option>Tidak Dicek</option>
+        </select>`;
+        container.appendChild(wrap);
+    }
+});
+
+/* ====== Signature canvas setup (simple drawing) ====== */
+function setupSig(id){
+    const c = document.getElementById(id);
+    // make sure canvas sized for display
+    function resize(){ c.width = c.clientWidth; c.height = c.clientHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    const ctx = c.getContext('2d');
+    ctx.lineWidth = 2.2; ctx.lineCap='round'; ctx.strokeStyle = '#0b66c2';
+    let drawing = false;
+    let last = null;
+
+    function getPos(e){
+        const rect = c.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    c.addEventListener('mousedown',(e)=>{ drawing=true; last=getPos(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); });
+    c.addEventListener('mousemove',(e)=>{ if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
+    c.addEventListener('mouseup',()=>{ drawing=false; last=null; ctx.beginPath(); });
+    c.addEventListener('mouseleave',()=>{ drawing=false; last=null; ctx.beginPath(); });
+
+    // touch
+    c.addEventListener('touchstart',(e)=>{ drawing=true; last=getPos(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); e.preventDefault(); });
+    c.addEventListener('touchmove',(e)=>{ if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); });
+    c.addEventListener('touchend',()=>{ drawing=false; last=null; ctx.beginPath(); });
+
+    return {
+        clear: ()=>{ ctx.clearRect(0,0,c.width,c.height); },
+        isEmpty: ()=> {
+            const img = ctx.getImageData(0,0,c.width,c.height).data;
+            for(let i=0;i<img.length;i+=4){ if(img[i+3]!==0) return false; }
+            return true;
+        },
+        toData: ()=> c.toDataURL('image/png').split(',')[1]
+    };
+}
+
+const sigEng = setupSig('sigEngineer');
+const sigPet = setupSig('sigPetugas');
+
+document.getElementById('clearEng').addEventListener('click', ()=> sigEng.clear());
+document.getElementById('clearPet').addEventListener('click', ()=> sigPet.clear());
+
+/* ===== helper to convert condition text -> symbol ===== */
+function toSymbol(val){ return symbolMap[val] || val || ''; }
+
+/* ===== file to base64 helper (for image inputs) ===== */
+function fileToBase64(file){
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = ()=> resolve(reader.result.split(',')[1]);
+        reader.onerror = (e)=> reject(e);
+        reader.readAsDataURL(file);
+    });
+}
+
+/* ====== Form submit (Menggunakan FETCH yang Memicu CORS) ====== */
+/* Tetap menggunakan fetch, mengandalkan konfigurasi Apps Script yang seharusnya mendukung CORS (meskipun sering gagal) */
+document.getElementById('visitForm').addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const btn = ev.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+
+    // collect fields
+    const fd = new FormData(ev.target);
+    const data = {};
+    for(const [k,v] of fd.entries()){
+        data[k] = v;
+    }
+
+    // convert condition selects into symbols
+    document.querySelectorAll('.cond-select').forEach(sel=>{
+        if(sel.name){
+            data[sel.name] = toSymbol(sel.value);
+        }
+    });
+
+    // add arah labels if koridor selected
+    const kor = document.getElementById('koridor').value;
+    if(kor && koridorData[kor]){ data.arah_a_label = koridorData[kor].arahA; data.arah_b_label = koridorData[kor].arahB; }
+
+    // files -> base64
+    const selfieEl = document.getElementById('foto_selfie');
+    let fotoPayload = null;
+    if(selfieEl && selfieEl.files && selfieEl.files[0]){
+        const b64 = await fileToBase64(selfieEl.files[0]);
+        fotoPayload = { name: selfieEl.files[0].name, mime: selfieEl.files[0].type || 'image/png', data: b64 };
+    }
+
+    // signatures
+    let ttdEngPayload = null, ttdPetPayload = null;
+    if(!sigEng.isEmpty()) ttdEngPayload = { name:'ttd_engineer.png', mime:'image/png', data: sigEng.toData() };
+    if(!sigPet.isEmpty()) ttdPetPayload = { name:'ttd_petugas.png', mime:'image/png', data: sigPet.toData() };
+
+    const payload = { data, foto_selfie: fotoPayload, ttd_engineer: ttdEngPayload, ttd_petugas: ttdPetPayload };
+
+    try{
+        const res = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            // Headers Content-Type inilah yang memicu CORS preflight dari github.io
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+        });
+
+        // Di sini request gagal di preflight/fetch (Failed to fetch) sebelum Apps Script sempat merespons
+
+        const j = await res.json();
+
+        if(j && j.status === 'success'){
+            document.getElementById('alertArea').innerHTML = `<div style="padding:12px;border-radius:8px;background:#e6ffed;color:#065f46">✔ Data berhasil dikirim</div>`;
+            ev.target.reset();
+            sigEng.clear(); sigPet.clear();
+            // reset labels & halte
+            document.getElementById('labelA').textContent = 'Arah A';
+            document.getElementById('labelB').textContent = 'Arah B';
+            document.getElementById('halte').innerHTML = `<option value="" selected disabled>Pilih Halte</option>`; document.getElementById('halte').disabled = true;
+        } else {
+            throw new Error((j && j.message) ? j.message : 'Unknown response from server');
+        }
+    } catch(err){
+        const msg = err && err.message ? err.message : String(err);
+        document.getElementById('alertArea').innerHTML = `<div style="padding:12px;border-radius:8px;background:#fff3f2;color:#7f1d1d">❌ Gagal mengirim: ${msg}</div>`;
+        console.error('submit error', err);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Kirim';
+    }
+});
+</script>
+</body>
+</html>
